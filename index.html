@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Efecto Romántico</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      background: black;
+      font-family: 'Arial', sans-serif;
+      cursor: pointer;
+    }
+
+    /* Texto central con efecto neón */
+    .center-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3rem;
+      color: #ff4dc4;
+      text-shadow: 0 0 15px #ff4dc4, 0 0 30px #ff99e6;
+      animation: neonGlow 1.5s infinite alternate;
+      z-index: 10;
+    }
+
+    @keyframes neonGlow {
+      0% {
+        text-shadow: 
+          0 0 5px #ff4dc4,
+          0 0 10px #ff4dc4,
+          0 0 20px #ff99e6,
+          0 0 40px #ff4dc4;
+        opacity: 0.7;
+      }
+      100% {
+        text-shadow: 
+          0 0 10px #ff99e6,
+          0 0 20px #ff4dc4,
+          0 0 40px #ff99e6,
+          0 0 80px #ff4dc4;
+        opacity: 1;
+      }
+    }
+
+    /* Corazones que suben automáticamente */
+    .heart {
+      position: absolute;
+      bottom: -50px;
+      font-size: 2rem;
+      color: #ff4dc4;
+      opacity: 0.8;
+      animation: floatUp linear forwards;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
+    }
+
+    /* Texto cayendo en cascada (horizontal) */
+    .falling-text {
+      position: absolute;
+      top: -50px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #ff4dc4;
+      opacity: 0.8;
+      animation: fallDown linear forwards;
+      pointer-events: none;
+    }
+
+    @keyframes fallDown {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(110vh); opacity: 0; }
+    }
+
+    /* Corazón en clic */
+    .click-heart {
+      position: absolute;
+      font-size: 2.5rem;
+      color: #ff4dc4;
+      pointer-events: none;
+      animation: popUp 1s ease-out forwards;
+    }
+
+    @keyframes popUp {
+      0% { transform: scale(0.5); opacity: 1; }
+      50% { transform: scale(1.5); opacity: 1; }
+      100% { transform: scale(2) translateY(-50px); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="center-text">AMIUD 💖✨</div>
+
+  <!-- 🎶 Canción (cambia el archivo "cancion.mp3" por el tuyo) -->
+  <audio id="bg-music" autoplay loop>
+    <source src="cancion.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio en HTML5.
+  </audio>
+
+  <script>
+    // Generar corazones subiendo
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = 3 + Math.random() * 3 + "s";
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 6000);
+    }
+
+    // Generar textos cayendo (horizontal ahora)
+    function createFallingText() {
+      const text = document.createElement("div");
+      text.classList.add("falling-text");
+      text.innerHTML = "TE AMO";
+      text.style.left = Math.random() * 100 + "vw";
+      text.style.animationDuration = 4 + Math.random() * 3 + "s";
+      document.body.appendChild(text);
+
+      setTimeout(() => text.remove(), 7000);
+    }
+
+    // Corazón en el lugar del clic
+    document.addEventListener("click", (e) => {
+      const clickHeart = document.createElement("div");
+      clickHeart.classList.add("click-heart");
+      clickHeart.innerHTML = "💖";
+      clickHeart.style.left = e.pageX - 15 + "px";
+      clickHeart.style.top = e.pageY - 15 + "px";
+      document.body.appendChild(clickHeart);
+
+      setTimeout(() => clickHeart.remove(), 1000);
+    });
+
+    // Intervalos automáticos
+    setInterval(createHeart, 400);
+    setInterval(createFallingText, 600);
+
+    // 🎶 Autoplay fix (para navegadores que bloquean autoplay sin interacción)
+    window.addEventListener("click", () => {
+      const music = document.getElementById("bg-music");
+      if (music.paused) {
+        music.play();
+      }
+    });
+  </script>
+</body>
+</html>
